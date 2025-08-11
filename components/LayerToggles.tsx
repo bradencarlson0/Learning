@@ -63,6 +63,10 @@ export default function LayerToggles({
           <input type="checkbox" checked={state.centers} onChange={() => flip('centers')} />
           TLE centers
         </label>
+        <label className="flex items-center gap-2 col-span-2">
+          <input type="checkbox" checked={state.labels} onChange={() => flip('labels')} />
+          Hybrid labels
+        </label>
       </div>
     </div>
   );
