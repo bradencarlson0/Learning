@@ -1,0 +1,39 @@
+{
+  "name": "tle-deal-machine",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "setup": "playwright install chromium",
+    "geocode": "node scripts/geocode.mjs"
+  },
+  "dependencies": {
+    "@deck.gl/core": "^9.0.36",
+    "@deck.gl/geo-layers": "^9.0.36",
+    "@deck.gl/layers": "^9.0.36",
+    "@deck.gl/react": "^9.0.36",
+    "@loaders.gl/core": "^4.2.0",
+    "@loaders.gl/json": "^4.2.0",
+    "@turf/turf": "^7.2.0",
+    "dayjs": "^1.11.13",
+    "maplibre-gl": "^4.7.1",
+    "next": "14.2.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "swr": "^2.2.5",
+    "three": "0.158.0",
+    "three-globe": "2.27.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "autoprefixer": "^10.4.19",
+    "playwright": "^1.45.3",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.4.5"
+  }
+}
