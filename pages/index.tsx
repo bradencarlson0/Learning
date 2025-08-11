@@ -358,6 +358,25 @@ export default function IndexPage() {
     setViewState((vs: any) => ({ ...vs, ...vp, pitch: 0, bearing: 0 }));
   }
 
+  const getTooltip = (info: any) => {
+    const { object, layer } = info;
+    if (!object) return null;
+    if (layer.id === 'neighbors') {
+      const id = object.properties?.id ?? object.id ?? 'Neighbor';
+      const score = object.score ?? object.properties?.score;
+      const scoreLine = typeof score === 'number' ? `\nScore: ${score.toFixed(2)}` : '';
+      return { text: `${id}${scoreLine}` };
+    }
+    if (layer.id === 'aadt') {
+      return { text: `AADT: ${object.properties?.AADT ?? 'n/a'}` };
+    }
+    if (layer.id === 'centers') {
+      const id = object.properties?.id ?? object.id ?? 'Center';
+      return { text: `${id}` };
+    }
+    return null;
+  };
+
   return (
     <div style={{ height: '100vh' }}>
       <DeckGL
@@ -367,6 +386,7 @@ export default function IndexPage() {
         viewState={viewState as any}
         onViewStateChange={({ viewState }) => setViewState(viewState as any)}
         layers={layers as any}
+        getTooltip={getTooltip}
       />
 
       {/* Top bar */}
