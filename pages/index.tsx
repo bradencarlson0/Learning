@@ -48,8 +48,8 @@ export default function IndexPage() {
     arcs: false,
     aadt: true,
     isd: true,
-    wetlands: false,
-    parcels: false,
+    wetlands: true,
+    parcels: true,
     centers: true,
     labels: true // NEW: hybrid labels toggle
   });
@@ -410,7 +410,11 @@ export default function IndexPage() {
       {/* Left tools */}
       <div className="absolute left-3 bottom-3 flex flex-col gap-3">
         <WeightsPanel w={weights} setW={setWeights} />
-        <LayerToggles state={layersOn as LayerState & { labels: boolean }} setState={setLayersOn as any} />
+        <LayerToggles
+          state={layersOn as LayerState & { labels: boolean }}
+          setState={setLayersOn as any}
+          zoom={viewState.zoom}
+        />
         <CameraBar onTopDown={snapTopDownNorth} onIso={snapIsometric} onReset={resetToSubject} onFit={fitNeighbors} />
       </div>
 

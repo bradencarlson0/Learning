@@ -14,13 +14,17 @@ export type LayerState = {
 
 export default function LayerToggles({
   state,
-  setState
+  setState,
+  zoom
 }: {
   state: LayerState;
   setState: (s: LayerState) => void;
+  zoom: number;
 }) {
   const flip = (k: keyof LayerState) => setState({ ...state, [k]: !state[k] } as LayerState);
   const setBase = (b: 'satellite' | 'dark') => setState({ ...state, basemap: b });
+  const wetlandsReady = zoom >= 10;
+  const parcelsReady = zoom >= 15;
 
   return (
     <div className="bg-slate-900/90 text-white p-3 rounded-xl grid gap-2 w-[280px]">
@@ -51,13 +55,23 @@ export default function LayerToggles({
           <input type="checkbox" checked={state.isd} onChange={() => flip('isd')} />
           School districts
         </label>
-        <label className="flex items-center gap-2 col-span-2">
-          <input type="checkbox" checked={state.wetlands} onChange={() => flip('wetlands')} />
-          Wetlands
+        <label className="flex items-center gap-2 col-span-2" title="Visible at zoom ≥ 10">
+          <input
+            type="checkbox"
+            checked={state.wetlands}
+            onChange={() => flip('wetlands')}
+            disabled={!wetlandsReady}
+          />
+          Wetlands {!wetlandsReady && '(zoom ≥ 10)'}
         </label>
-        <label className="flex items-center gap-2 col-span-2">
-          <input type="checkbox" checked={state.parcels} onChange={() => flip('parcels')} />
-          Parcels
+        <label className="flex items-center gap-2 col-span-2" title="Visible at zoom ≥ 15">
+          <input
+            type="checkbox"
+            checked={state.parcels}
+            onChange={() => flip('parcels')}
+            disabled={!parcelsReady}
+          />
+          Parcels {!parcelsReady && '(zoom ≥ 15)'}
         </label>
         <label className="flex items-center gap-2 col-span-2">
           <input type="checkbox" checked={state.centers} onChange={() => flip('centers')} />
