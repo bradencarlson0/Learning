@@ -103,12 +103,31 @@ export default function IndexPage() {
         minZoom: 0,
         maxZoom: 19,
         tileSize: 256,
-        renderSubLayers: (props: any) =>
-          new BitmapLayer(props, {
+        onTileError: (err) => console.error('Basemap tile error:', err),
+        renderSubLayers: (props: any) => {
+          if (!props.data) {
+            const [minX, minY, maxX, maxY] = props.tile.bbox;
+            return new PolygonLayer(props, {
+              id: `${props.id}-fallback`,
+              data: [
+                [
+                  [minX, minY],
+                  [minX, maxY],
+                  [maxX, maxY],
+                  [maxX, minY]
+                ]
+              ],
+              getPolygon: (d: any) => d,
+              getFillColor: [60, 60, 60, 255]
+            });
+          }
+          return new BitmapLayer(props, {
             image: props.data,
             bounds: props.tile.bbox,
-            opacity: layersOn.basemap === 'satellite' ? 0.95 : 0.85
-          })
+            opacity: layersOn.basemap === 'satellite' ? 0.95 : 0.85,
+            loadOptions: { crossOrigin: 'anonymous' }
+          });
+        }
       }),
     [layersOn.basemap]
   );
@@ -123,12 +142,31 @@ export default function IndexPage() {
         maxZoom: 19,
         tileSize: 256,
         visible: layersOn.labels,
-        renderSubLayers: (props: any) =>
-          new BitmapLayer(props, {
+        onTileError: (err) => console.error('Label tile error:', err),
+        renderSubLayers: (props: any) => {
+          if (!props.data) {
+            const [minX, minY, maxX, maxY] = props.tile.bbox;
+            return new PolygonLayer(props, {
+              id: `${props.id}-fallback`,
+              data: [
+                [
+                  [minX, minY],
+                  [minX, maxY],
+                  [maxX, maxY],
+                  [maxX, minY]
+                ]
+              ],
+              getPolygon: (d: any) => d,
+              getFillColor: [60, 60, 60, 255]
+            });
+          }
+          return new BitmapLayer(props, {
             image: props.data,
             bounds: props.tile.bbox,
-            opacity: 0.85
-          })
+            opacity: 0.85,
+            loadOptions: { crossOrigin: 'anonymous' }
+          });
+        }
       }),
     [layersOn.labels]
   );
