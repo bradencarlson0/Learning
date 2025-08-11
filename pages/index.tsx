@@ -48,7 +48,8 @@ export default function IndexPage() {
     arcs: false,
     aadt: true,
     isd: true,
-    wetlands: false,
+    wetlands: true,
+    parcels: true,
     centers: true,
     labels: true // NEW: hybrid labels toggle
   });
@@ -60,6 +61,7 @@ export default function IndexPage() {
   const { data: aadt } = useSWR(`/api/aadt?year=2023`, fetcher);
   const { data: isd } = useSWR(`/api/isd`, fetcher);
   const { data: wet } = useSWR(`/api/wetlands?subject=${subjectId}`, fetcher);
+  const { data: parcels } = useSWR(`/api/parcels?subject=${subjectId}`, fetcher);
   const { data: centers } = useSWR(`/api/centers`, fetcher); // after `npm run geocode`
 
   // Background
@@ -101,12 +103,31 @@ export default function IndexPage() {
         minZoom: 0,
         maxZoom: 19,
         tileSize: 256,
-        renderSubLayers: (props: any) =>
-          new BitmapLayer(props, {
+        onTileError: (err) => console.error('Basemap tile error:', err),
+        renderSubLayers: (props: any) => {
+          if (!props.data) {
+            const [minX, minY, maxX, maxY] = props.tile.bbox;
+            return new PolygonLayer(props, {
+              id: `${props.id}-fallback`,
+              data: [
+                [
+                  [minX, minY],
+                  [minX, maxY],
+                  [maxX, maxY],
+                  [maxX, minY]
+                ]
+              ],
+              getPolygon: (d: any) => d,
+              getFillColor: [60, 60, 60, 255]
+            });
+          }
+          return new BitmapLayer(props, {
             image: props.data,
             bounds: props.tile.bbox,
-            opacity: layersOn.basemap === 'satellite' ? 0.95 : 0.85
-          })
+            opacity: layersOn.basemap === 'satellite' ? 0.95 : 0.85,
+            loadOptions: { crossOrigin: 'anonymous' }
+          });
+        }
       }),
     [layersOn.basemap]
   );
@@ -121,12 +142,31 @@ export default function IndexPage() {
         maxZoom: 19,
         tileSize: 256,
         visible: layersOn.labels,
-        renderSubLayers: (props: any) =>
-          new BitmapLayer(props, {
+        onTileError: (err) => console.error('Label tile error:', err),
+        renderSubLayers: (props: any) => {
+          if (!props.data) {
+            const [minX, minY, maxX, maxY] = props.tile.bbox;
+            return new PolygonLayer(props, {
+              id: `${props.id}-fallback`,
+              data: [
+                [
+                  [minX, minY],
+                  [minX, maxY],
+                  [maxX, maxY],
+                  [maxX, minY]
+                ]
+              ],
+              getPolygon: (d: any) => d,
+              getFillColor: [60, 60, 60, 255]
+            });
+          }
+          return new BitmapLayer(props, {
             image: props.data,
             bounds: props.tile.bbox,
-            opacity: 0.85
-          })
+            opacity: 0.85,
+            loadOptions: { crossOrigin: 'anonymous' }
+          });
+        }
       }),
     [layersOn.labels]
   );
@@ -237,6 +277,21 @@ export default function IndexPage() {
       );
     }
 
+    // Parcel boundaries
+    if (layersOn.parcels && parcels) {
+      L.push(
+        new GeoJsonLayer<any>({
+          id: 'parcels',
+          data: parcels as FC,
+          visible: viewState.zoom >= 15,
+          stroked: true,
+          filled: false,
+          getLineColor: [115, 76, 0, 200],
+          lineWidthMinPixels: 1
+        })
+      );
+    }
+
     // TLE centers
     if (layersOn.centers && centers) {
       L.push(
@@ -255,7 +310,7 @@ export default function IndexPage() {
     }
 
     return L;
-  }, [sim, aadt, isd, wet, centers, baseTiles, labelTiles, layersOn, viewState.zoom]);
+  }, [sim, aadt, isd, wet, parcels, centers, baseTiles, labelTiles, layersOn, viewState.zoom]);
 
   // ----- Actions -----
   async function runBatch() {
@@ -341,6 +396,25 @@ export default function IndexPage() {
     setViewState((vs: any) => ({ ...vs, ...vp, pitch: 0, bearing: 0 }));
   }
 
+  const getTooltip = (info: any) => {
+    const { object, layer } = info;
+    if (!object) return null;
+    if (layer.id === 'neighbors') {
+      const id = object.properties?.id ?? object.id ?? 'Neighbor';
+      const score = object.score ?? object.properties?.score;
+      const scoreLine = typeof score === 'number' ? `\nScore: ${score.toFixed(2)}` : '';
+      return { text: `${id}${scoreLine}` };
+    }
+    if (layer.id === 'aadt') {
+      return { text: `AADT: ${object.properties?.AADT ?? 'n/a'}` };
+    }
+    if (layer.id === 'centers') {
+      const id = object.properties?.id ?? object.id ?? 'Center';
+      return { text: `${id}` };
+    }
+    return null;
+  };
+
   return (
     <div style={{ height: '100vh' }}>
       <DeckGL
@@ -350,6 +424,7 @@ export default function IndexPage() {
         viewState={viewState as any}
         onViewStateChange={({ viewState }) => setViewState(viewState as any)}
         layers={layers as any}
+        getTooltip={getTooltip}
       />
 
       {/* Top bar */}
@@ -373,7 +448,11 @@ export default function IndexPage() {
       {/* Left tools */}
       <div className="absolute left-3 bottom-3 flex flex-col gap-3">
         <WeightsPanel w={weights} setW={setWeights} />
-        <LayerToggles state={layersOn as LayerState & { labels: boolean }} setState={setLayersOn as any} />
+        <LayerToggles
+          state={layersOn as LayerState & { labels: boolean }}
+          setState={setLayersOn as any}
+          zoom={viewState.zoom}
+        />
         <CameraBar onTopDown={snapTopDownNorth} onIso={snapIsometric} onReset={resetToSubject} onFit={fitNeighbors} />
       </div>
 
