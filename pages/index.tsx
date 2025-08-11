@@ -49,6 +49,7 @@ export default function IndexPage() {
     aadt: true,
     isd: true,
     wetlands: false,
+    parcels: false,
     centers: true,
     labels: true // NEW: hybrid labels toggle
   });
@@ -60,6 +61,7 @@ export default function IndexPage() {
   const { data: aadt } = useSWR(`/api/aadt?year=2023`, fetcher);
   const { data: isd } = useSWR(`/api/isd`, fetcher);
   const { data: wet } = useSWR(`/api/wetlands?subject=${subjectId}`, fetcher);
+  const { data: parcels } = useSWR(`/api/parcels?subject=${subjectId}`, fetcher);
   const { data: centers } = useSWR(`/api/centers`, fetcher); // after `npm run geocode`
 
   // Background
@@ -237,6 +239,21 @@ export default function IndexPage() {
       );
     }
 
+    // Parcel boundaries
+    if (layersOn.parcels && parcels) {
+      L.push(
+        new GeoJsonLayer<any>({
+          id: 'parcels',
+          data: parcels as FC,
+          visible: viewState.zoom >= 15,
+          stroked: true,
+          filled: false,
+          getLineColor: [115, 76, 0, 200],
+          lineWidthMinPixels: 1
+        })
+      );
+    }
+
     // TLE centers
     if (layersOn.centers && centers) {
       L.push(
@@ -255,7 +272,7 @@ export default function IndexPage() {
     }
 
     return L;
-  }, [sim, aadt, isd, wet, centers, baseTiles, labelTiles, layersOn, viewState.zoom]);
+  }, [sim, aadt, isd, wet, parcels, centers, baseTiles, labelTiles, layersOn, viewState.zoom]);
 
   // ----- Actions -----
   async function runBatch() {

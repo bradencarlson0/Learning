@@ -7,6 +7,7 @@ export type LayerState = {
   aadt: boolean;
   isd: boolean;
   wetlands: boolean;
+  parcels: boolean;
   centers: boolean;
   labels: boolean
 };
@@ -53,6 +54,10 @@ export default function LayerToggles({
         <label className="flex items-center gap-2 col-span-2">
           <input type="checkbox" checked={state.wetlands} onChange={() => flip('wetlands')} />
           Wetlands
+        </label>
+        <label className="flex items-center gap-2 col-span-2">
+          <input type="checkbox" checked={state.parcels} onChange={() => flip('parcels')} />
+          Parcels
         </label>
         <label className="flex items-center gap-2 col-span-2">
           <input type="checkbox" checked={state.centers} onChange={() => flip('centers')} />
