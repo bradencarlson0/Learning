@@ -4,9 +4,9 @@ const BASE_URL =
   'https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Wetlands/FeatureServer/0/query';
 
 // Temporary subjects with centroids (same as index page)
-const SUBJECTS: Record<string, { centroid: [number, number] }> = {
-  TEHAMA: { centroid: [-97.33, 32.897] },
-  CAMPWISDOM: { centroid: [-96.994, 32.664] }
+const SUBJECTS: Record<string, [number, number]> = {
+  TEHAMA: [-97.33, 32.897],
+  CAMPWISDOM: [-96.994, 32.664]
 };
 
 export default async function handler(
@@ -15,13 +15,11 @@ export default async function handler(
 ) {
   try {
     const { subject = 'TEHAMA' } = req.query as any;
-    const subj = SUBJECTS[String(subject).toUpperCase()] ?? SUBJECTS.TEHAMA;
+    const [lon, lat] = SUBJECTS[String(subject).toUpperCase()] ?? SUBJECTS.TEHAMA;
 
     // Rough ~5km bounding box around centroid
     const d = 0.05; // degrees
-    const bbox = `${subj.centroid[0] - d},${subj.centroid[1] - d},${subj.centroid[0] + d},${
-      subj.centroid[1] + d
-    }`;
+    const bbox = `${lon - d},${lat - d},${lon + d},${lat + d}`;
 
     const params = new URLSearchParams({
       where: '1=1',
@@ -32,7 +30,8 @@ export default async function handler(
       outFields: '*',
       f: 'geojson',
       resultRecordCount: '2000',
-      resultOffset: '0'
+      resultOffset: '0',
+      spatialRel: 'esriSpatialRelIntersects'
     });
 
     const features: any[] = [];
