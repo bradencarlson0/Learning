@@ -44,8 +44,8 @@ export default async function handler(
       const gj = await r.json();
       const batch = gj?.features ?? [];
       features.push(...batch);
-      if (batch.length < 2000) break;
-      offset += 2000;
+      if (!gj?.exceededTransferLimit || batch.length === 0) break;
+      offset += batch.length;
     }
 
     res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate=86400');
