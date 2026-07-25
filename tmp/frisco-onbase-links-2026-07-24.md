@@ -1,0 +1,30 @@
+# Temporary Frisco OnBase access links
+
+- [PD-157 00-10-17](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=00-10-17&doctypeid=106)
+- [PD-216 18-11-65](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=18-11-65&doctypeid=106)
+- [PD-248 19-12-116](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=19-12-116&doctypeid=106)
+- [PD-239 14-10-62](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=14-10-62&doctypeid=106)
+- [PD-239 19-01-03](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=19-01-03&doctypeid=106)
+- [PD-222 09-07-37](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=09-07-37&doctypeid=106)
+- [PD-253 15-10-77](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=15-10-77&doctypeid=106)
+- [PD-97 15-11-82](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=15-11-82&doctypeid=106)
+- [PD-97 99-08-04](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=99-08-04&doctypeid=106)
+- [PD-2 16-11-90](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=16-11-90&doctypeid=106)
+- [PD-214 07-09-44](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=07-09-44&doctypeid=106)
+- [PD-215 15-06-26](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=15-06-26&doctypeid=106)
+- [PD-215 2023-10-50](https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=2023-10-50&doctypeid=106)
+
+## Jina-rendered viewer links
+
+- [PD-157 via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=00-10-17&doctypeid=106)
+- [PD-216 via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=18-11-65&doctypeid=106)
+- [PD-248 via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=19-12-116&doctypeid=106)
+- [PD-239 original via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=14-10-62&doctypeid=106)
+- [PD-239 amendment via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=19-01-03&doctypeid=106)
+- [PD-222 via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=09-07-37&doctypeid=106)
+- [PD-253 via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=15-10-77&doctypeid=106)
+- [PD-97 amendment via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=15-11-82&doctypeid=106)
+- [PD-97 original via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=99-08-04&doctypeid=106)
+- [PD-2 via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=16-11-90&doctypeid=106)
+- [PD-214 via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=07-09-44&doctypeid=106)
+- [PD-215 original via Jina](https://r.jina.ai/https://agenda.friscotexas.gov/AppNet/docpop/docpop.aspx?KT121_0_0_0=15-06-26&doctypeid=106)
