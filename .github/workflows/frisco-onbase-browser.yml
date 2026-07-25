@@ -1,0 +1,38 @@
+name: Temporary Frisco OnBase Browser Retrieval
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/frisco-onbase-browser.yml'
+      - 'tools/frisco_onbase_browser.py'
+
+permissions:
+  contents: read
+
+jobs:
+  retrieve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: frisco-onbase-runner-20260724
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Open and capture OnBase ordinance records
+        run: python tools/frisco_onbase_browser.py
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frisco-onbase-browser-output
+          path: tmp/frisco-onbase-browser-output
+          if-no-files-found: warn
+          retention-days: 7
